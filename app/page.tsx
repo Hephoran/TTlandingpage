@@ -13,42 +13,12 @@ const HERO_IMAGES = [
 ];
 
 export default function Home() {
-  const [email, setEmail] = useState('');
-  const [honeypot, setHoneypot] = useState('');
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error' | 'ratelimit'>('idle');
-  const [isLaunchReady, setIsLaunchReady] = useState(false); // Toggle for "Live" mode
   const [heroImage, setHeroImage] = useState(HERO_IMAGES[0]);
 
   useEffect(() => {
-    // Randomize background image on load
     const randomIndex = Math.floor(Math.random() * HERO_IMAGES.length);
     setHeroImage(HERO_IMAGES[randomIndex]);
   }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus('loading');
-
-    try {
-      const res = await fetch('/api/waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, honeypot }),
-      });
-
-      if (res.ok) {
-        setStatus('success');
-        setEmail('');
-        setHoneypot('');
-      } else if (res.status === 429) {
-        setStatus('ratelimit');
-      } else {
-        setStatus('error');
-      }
-    } catch (err) {
-      setStatus('error');
-    }
-  };
 
   return (
     <div className="bg-background text-foreground selection:bg-accent/30 min-h-screen font-sans">
@@ -61,15 +31,6 @@ export default function Home() {
           <div className="flex gap-6 items-center">
             <a href="#features" className="text-sm font-medium hover:text-accent transition-colors">Features</a>
             <a href="#how-it-works" className="text-sm font-medium hover:text-accent transition-colors">Process</a>
-            {isLaunchReady ? (
-              <button className="px-4 py-2 bg-accent hover:bg-accent-hover rounded-custom font-semibold text-sm transition-colors">
-                Login
-              </button>
-            ) : (
-              <a href="#waitlist" className="px-4 py-2 bg-accent/10 hover:bg-accent/20 text-accent rounded-custom font-semibold text-sm transition-colors">
-                Join Waitlist
-              </a>
-            )}
           </div>
         </div>
       </nav>
@@ -99,40 +60,6 @@ export default function Home() {
             <p className="text-xl md:text-3xl text-muted max-w-3xl mb-12 font-medium">
               You ride your ride, we provide insight. Professional track data analysis for every rider.
             </p>
-
-            {!isLaunchReady && (
-              <form id="waitlist" onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-4 w-full max-w-md mb-8">
-                <input
-                  type="email"
-                  placeholder="name@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="flex-1 px-5 py-4 bg-input border border-border rounded-custom text-foreground focus:outline-none focus:border-accent transition-colors"
-                />
-                {/* Honeypot field */}
-                <input
-                  type="text"
-                  name="fax_number"
-                  value={honeypot}
-                  onChange={(e) => setHoneypot(e.target.value)}
-                  className="hidden"
-                  tabIndex={-1}
-                  autoComplete="off"
-                />
-                <button
-                  type="submit"
-                  disabled={status === 'loading'}
-                  className="px-8 py-4 bg-accent hover:bg-accent-hover text-white font-bold rounded-custom transition-all shadow-lg shadow-accent/20 disabled:opacity-50"
-                >
-                  {status === 'loading' ? 'Joining...' : 'Get Access Early'}
-                </button>
-              </form>
-            )}
-
-            {status === 'success' && <p className="mb-4 text-green-500 font-medium">You're on the list! See you at the track.</p>}
-            {status === 'ratelimit' && <p className="mb-4 text-yellow-500 font-medium">Too many attempts. Please try again in a minute.</p>}
-            {status === 'error' && <p className="mb-4 text-accent font-medium">Something went wrong. Please try again.</p>}
           </div>
 
           {/* Scrolling Indicator */}
@@ -281,39 +208,10 @@ export default function Home() {
 
         {/* Final CTA */}
         <section className="py-40 px-6 text-center bg-linear-to-b from-sidebar to-background">
-          <h2 className="text-4xl md:text-6xl font-bold mb-8">Ready to ride smarter?</h2>
-          <p className="text-xl text-muted max-w-2xl mx-auto mb-12">
-            Join the waitlist to be among the first to experience the future of rider development.
+          <h2 className="text-4xl md:text-6xl font-bold mb-8">Coming Soon</h2>
+          <p className="text-xl text-muted max-w-2xl mx-auto">
+            We're building the future of rider development. Stay tuned.
           </p>
-          {!isLaunchReady && (
-            <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-4 w-full max-w-md mx-auto">
-              <input
-                type="email"
-                name="email_bottom"
-                placeholder="Secure your spot"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="flex-1 px-5 py-4 bg-input border border-border rounded-custom text-foreground focus:outline-none focus:border-accent"
-              />
-              {/* Honeypot field */}
-              <input
-                type="text"
-                name="fax_number_bottom"
-                value={honeypot}
-                onChange={(e) => setHoneypot(e.target.value)}
-                className="hidden"
-                tabIndex={-1}
-                autoComplete="off"
-              />
-              <button
-                type="submit"
-                className="px-8 py-4 bg-accent hover:bg-accent-hover text-white font-bold rounded-custom transition-all"
-              >
-                Join Waitlist
-              </button>
-            </form>
-          )}
         </section>
       </main>
 
