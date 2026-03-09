@@ -1,0 +1,30 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    expose:
+      - "3000"
+
+  haproxy:
+    image: haproxy:2.9-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - letsencrypt_data:/etc/letsencrypt:ro
+      - ./certs:/etc/haproxy/certs:ro
+    depends_on:
+      - app
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - letsencrypt_data:/etc/letsencrypt
+      - certbot_www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done'"
+
+volumes:
+  letsencrypt_data:
+  certbot_www:
