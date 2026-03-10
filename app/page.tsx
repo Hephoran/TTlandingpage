@@ -42,7 +42,7 @@ export default function Home() {
           <div className="absolute inset-0 z-0 opacity-10 grayscale hover:grayscale-0 transition-opacity duration-1000">
             <Image
               src={heroImage}
-              alt="Racing Action"
+              alt="Motorcycle racing action on track - TrackTutor virtual race engineer"
               fill
               className="object-cover"
               priority
@@ -134,7 +134,7 @@ export default function Home() {
             <div className="flex-1 relative w-full aspect-video rounded-custom overflow-hidden border border-border shadow-2xl">
               <Image
                 src="/assets/telemetry_viz.jpg"
-                alt="Analytical Charts"
+                alt="TrackTutor telemetry visualization and data analysis charts"
                 fill
                 className="object-cover"
               />
@@ -184,7 +184,7 @@ export default function Home() {
             <div className="flex-1 relative w-full aspect-square md:aspect-video rounded-custom overflow-hidden border border-border bg-card">
               <Image
                 src="/assets/maps/map_real.png"
-                alt="Realistic Track Map"
+                alt="High-resolution realistic track map for rider line analysis"
                 fill
                 className="object-cover opacity-60 grayscale-[50%]"
               />
@@ -238,7 +238,7 @@ export default function Home() {
             <ul className="space-y-4 text-sm text-muted">
               <li><a href="#" className="hover:text-accent transition-colors">Privacy Policy</a></li>
               <li><a href="#" className="hover:text-accent transition-colors">Terms of Service</a></li>
-              <li><a href="mailto:hello@tracktutor.com" className="hover:text-accent transition-colors">Contact</a></li>
+              <li><a href="mailto:info@tracktutor.app" className="hover:text-accent transition-colors">Contact</a></li>
             </ul>
           </div>
         </div>
